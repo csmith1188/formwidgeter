@@ -52,6 +52,7 @@ class SerialApp:
             ("Set Password", "setpass"),
             ("Set Server", "setserver"),
             ("Set API Key", "setapikey"),
+            ("Set Room Code", "setroomcode"),
             ("Read Values", "read"),
             ("Help", "help")
         ]

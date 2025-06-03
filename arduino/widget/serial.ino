@@ -25,7 +25,7 @@ void serialEvent() {
 void processCommand() {
   if (stringComplete) {
     inputString.trim();  // Remove any whitespace
-    
+
     // Split command and value
     int spaceIndex = inputString.indexOf(' ');
     if (spaceIndex == -1) {
@@ -36,11 +36,16 @@ void processCommand() {
         Serial.print("SSID: ");
         Serial.println(ap_name);
         Serial.print("Password: ");
-        Serial.println(ap_pass);
+        Serial.println("*****");
         Serial.print("Server URL: ");
         Serial.println(server_url);
-        Serial.print("API Key: ");
-        Serial.println(apikey);
+        if (apikey.length() >= 4) {
+          Serial.print("API Key: ");
+          shortKey = apikey.substring(0, 4);
+          Serial.println(shortKey + "****");
+        }
+        Serial.print("Room Code: ");
+        Serial.println(roomCode);
       } else if (inputString == "help") {
         printHelp();
       } else {
@@ -49,7 +54,7 @@ void processCommand() {
     } else {
       String command = inputString.substring(0, spaceIndex);
       String value = inputString.substring(spaceIndex + 1);
-      
+
       if (command == "setssid") {
         writeEEPROM(0 * EEPROM_CHUNK_SIZE, value);
         Serial.println("SSID updated");
@@ -62,11 +67,14 @@ void processCommand() {
       } else if (command == "setapikey") {
         writeEEPROM(3 * EEPROM_CHUNK_SIZE, value);
         Serial.println("API Key updated");
+      } else if (command == "setroomcode") {
+        writeEEPROM(4 * EEPROM_CHUNK_SIZE, value);
+        Serial.println("Room Code updated");
       } else {
-        Serial.println("Invalid command. Use: setssid, setpass, setserver, setapikey, read, or help");
+        Serial.println("Invalid command. Use: setssid, setpass, setserver, setapikey, setroomcode, read, or help");
       }
     }
-    
+
     // clear the string:
     inputString = "";
     stringComplete = false;
@@ -79,6 +87,7 @@ void printHelp() {
   Serial.println("setpass <password> - Set WiFi password");
   Serial.println("setserver <url>    - Set server URL");
   Serial.println("setapikey <key>    - Set API key");
+  Serial.println("setroomcode <code> - Set API key");
   Serial.println("read               - Read all current values");
   Serial.println("help               - Show this help message");
 }
