@@ -41,7 +41,7 @@ void processCommand() {
         Serial.println(server_url);
         if (apikey.length() >= 4) {
           Serial.print("API Key: ");
-          shortKey = apikey.substring(0, 4);
+          String shortKey = apikey.substring(0, 4);
           Serial.println(shortKey + "****");
         }
         Serial.print("Room Code: ");
