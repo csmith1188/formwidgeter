@@ -57,18 +57,23 @@ void processCommand() {
 
       if (command == "setssid") {
         writeEEPROM(0 * EEPROM_CHUNK_SIZE, value);
+        ap_name = value;
         Serial.println("SSID updated");
       } else if (command == "setpass") {
         writeEEPROM(1 * EEPROM_CHUNK_SIZE, value);
+        ap_pass = value;
         Serial.println("Password updated");
       } else if (command == "setserver") {
         writeEEPROM(2 * EEPROM_CHUNK_SIZE, value);
+        server_url = value;
         Serial.println("Server URL updated");
       } else if (command == "setapikey") {
         writeEEPROM(3 * EEPROM_CHUNK_SIZE, value);
+        apikey = value;
         Serial.println("API Key updated");
       } else if (command == "setroomcode") {
         writeEEPROM(4 * EEPROM_CHUNK_SIZE, value);
+        roomCode = value;
         Serial.println("Room Code updated");
       } else {
         Serial.println("Invalid command. Use: setssid, setpass, setserver, setapikey, setroomcode, read, or help");
